@@ -1,0 +1,933 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ATLAS fertilisation_advisor Service Template API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://<domain>/<path>"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Registration"
+    },
+    {
+      "name": "Advice"
+    }
+  ],
+  "paths": {
+    "/registration": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Registration"
+        ],
+        "summary": "Register field (register_field)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registration"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/registration/{field_urn}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Registration"
+        ],
+        "summary": "Retrieve field registration info (registration_info)",
+        "parameters": [
+          {
+            "description": "the URN of a registered field (urn:<field_service_id>:<internal_id>)",
+            "name": "field_urn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FieldURN"
+            },
+            "example": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Registration"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Registration"
+        ],
+        "summary": "Delete field registration (unregister_field)",
+        "parameters": [
+          {
+            "description": "the URN of a registered field (urn:<field_service_id>:<internal_id>)",
+            "name": "field_urn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FieldURN"
+            },
+            "example": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/advices": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Advice"
+        ],
+        "summary": "Prepare an advice (prepare_advice)",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdviceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Advice"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/advices/{urn}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Advice"
+        ],
+        "summary": "Retrieve advice (advice_info)",
+        "parameters": [
+          {
+            "description": "the URN of an advice (urn:<service_id>:<internal_id>)",
+            "name": "urn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AdviceURN"
+            },
+            "example": "urn:com.agricircle.atlas.fertilisation_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Advice"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Advice"
+        ],
+        "summary": "Cancel an existing advice (cancel_advice)",
+        "parameters": [
+          {
+            "description": "the URN of an advice (urn:<service_id>:<internal_id>)",
+            "name": "urn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AdviceURN"
+            },
+            "example": "urn:com.agricircle.atlas.fertilisation_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/advices/{urn}/applications/{application_ref}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Advice"
+        ],
+        "summary": "Get advice's application information for selected application reference (get_application_info)",
+        "parameters": [
+          {
+            "description": "the URN of an advice (urn:<service_id>:<internal_id>)",
+            "name": "urn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/AdviceURN"
+            },
+            "example": "urn:com.agricircle.atlas.fertilisation_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+          },
+          {
+            "description": "an application reference configured in prepare_advice",
+            "name": "application_ref",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "slurry"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Application"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The advice or the application reference was not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedError"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimpleError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FieldURN": {
+        "type": "string",
+        "pattern": "^urn:[a-z][a-z0-9_.\\-]*:[\\w-.]+",
+        "description": "Uniform resource name of a field with the syntax `urn:<service_id>:<internal_id>`. <service_id> must be the id of a valid and active ATLAS service"
+      },
+      "AdviceURN": {
+        "type": "string",
+        "pattern": "^urn:[a-z][a-z0-9_.\\-]*:[\\w-.]+",
+        "description": "Uniform resource name of an advice with the syntax `urn:<service_id>:<internal_id>`. <service_id> must be the id of a valid and active ATLAS service"
+      },
+      "RegistrationRequest": {
+        "type": "object",
+        "properties": {
+          "field_urn": {
+            "$ref": "#/components/schemas/FieldURN"
+          },
+          "nutrients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Nutrient"
+            }
+          },
+          "notification_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": [
+          "field_urn",
+          "nutrients"
+        ],
+        "example": {
+          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+          "nutrients": [
+            "P2O5",
+            "K2O"
+          ]
+        }
+      },
+      "Registration": {
+        "type": "object",
+        "properties": {
+          "field_urn": {
+            "$ref": "#/components/schemas/FieldURN"
+          },
+          "nutrients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Nutrient"
+            }
+          },
+          "notification_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "IN_PROGRESS",
+              "CONFIGURATION_REQUIRED",
+              "READY",
+              "FAILED"
+            ],
+            "description": "status of the advice preparation"
+          },
+          "status_message": {
+            "type": "string",
+            "description": "end-user-friendly message describing the status. In the special case where status is CONFIGURATION_REQUESTED, the message MUST be a browser URL to a configuration UI where further configuration can take place"
+          }
+        },
+        "example": {
+          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+          "nutrients": [
+            "P2O5",
+            "K2O"
+          ],
+          "status": "IN_PROGRESS"
+        }
+      },
+      "AdviceRequest": {
+        "type": "object",
+        "properties": {
+          "field_urn": {
+            "$ref": "#/components/schemas/FieldURN"
+          },
+          "nutrients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Nutrient"
+            },
+            "description": "Must be a subset of the registered nutrients"
+          },
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
+          },
+          "target_requirements": {
+            "type": "number",
+            "description": "Percentage of the season's requirements to reach (default=100%). This can be used for when doing multiple applications over a season instead of all-at-once"
+          }
+        },
+        "required": [
+          "field_urn",
+          "nutrients",
+          "applications"
+        ],
+        "example": {
+          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+          "nutrients": [
+            "K2O"
+          ],
+          "applications": [
+            {
+              "application_ref": "slurry",
+              "product": {
+                "name": "Cow slurry",
+                "unit": "l",
+                "composition": {
+                  "N": 100,
+                  "P2O5": 50,
+                  "K2O": 30,
+                  "MgO": 3
+                }
+              }
+            },
+            {
+              "application_ref": "potassium",
+              "product": {
+                "name": "K-rich product",
+                "unit": "kg",
+                "composition": {
+                  "N": 7.2,
+                  "P2O5": 35.5,
+                  "K2O": 422
+                }
+              }
+            }
+          ]
+        }
+      },
+      "Advice": {
+        "type": "object",
+        "properties": {
+          "urn": {
+            "$ref": "#/components/schemas/AdviceURN"
+          },
+          "type": {
+            "type": "string",
+            "pattern": "fertilisation"
+          },
+          "field_urn": {
+            "$ref": "#/components/schemas/FieldURN"
+          },
+          "nutrients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Nutrient"
+            }
+          },
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
+          },
+          "target_requirements": {
+            "type": "number",
+            "description": "Percentage of the season's requirements to reach (default=100%). This can be used for when doing multiple applications over a season instead of all-at-once"
+          }
+        },
+        "example": {
+          "urn": "urn:com.agricircle.atlas.fertilization_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613",
+          "type": "fertilisation",
+          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+          "nutrients": [
+            "K2O"
+          ],
+          "applications": [
+            {
+              "application_ref": "slurry",
+              "product": {
+                "name": "Cow slurry",
+                "unit": "l",
+                "composition": {
+                  "N": 100,
+                  "P2O5": 50,
+                  "K2O": 30,
+                  "MgO": 3
+                }
+              }
+            },
+            {
+              "application_ref": "potassium",
+              "product": {
+                "name": "K-rich product",
+                "unit": "kg",
+                "composition": {
+                  "N": 7.2,
+                  "P2O5": 35.5,
+                  "K2O": 422
+                }
+              }
+            }
+          ]
+        }
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "application_ref": {
+            "type": "string",
+            "pattern": "^\\w+$"
+          },
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "application_map": {
+            "readOnly": true,
+            "type": "object",
+            "properties": {
+              "download_url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to download the GeoPackage application_map (with GET and service Bearer token). Application maps should be requested just-in-time, just before starting the actual work on a field."
+              },
+              "url_expires_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "date/time at which download URL expires"
+              }
+            }
+          },
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "application_ref",
+          "product"
+        ],
+        "example": {
+          "application_ref": "slurry",
+          "product": {
+            "name": "Cow slurry",
+            "unit": "l",
+            "composition": {
+              "N": 100,
+              "P2O5": 50,
+              "K2O": 30,
+              "MgO": 3
+            }
+          },
+          "application_map": {
+            "download_url": "https://{SERVICE_BASE_URL}/some_arbitrary_path",
+            "url_expires_at": "2021-10-31T15:32:00Z"
+          },
+          "amount": {
+            "total": 75000
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "kg",
+              "l"
+            ]
+          },
+          "composition": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nutrient": {
+                  "$ref": "#/components/schemas/Nutrient"
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Grams of nutrient per product unit"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Nutrient": {
+        "type": "string",
+        "enum": [
+          "N",
+          "P2O5",
+          "K2O",
+          "CaCO3",
+          "Ca",
+          "MgO",
+          "S"
+        ]
+      },
+      "SimpleError": {
+        "type": "string",
+        "description": "Plain text message (may be empty).",
+        "example": "optional error message"
+      },
+      "DetailedError": {
+        "type": "object",
+        "description": "This defines the structure of an error payload when one is present. Actual messages and additional error information content may change from one implementation to another",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "error description"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Additional detailed information"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "example": {
+          "message": "general error message",
+          "errors": [
+            "optional",
+            "additional",
+            "details"
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
