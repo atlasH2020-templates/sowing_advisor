@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "ATLAS fertilisation_advisor Service Template API",
+    "title": "ATLAS sowing_advisor Service Template API",
     "version": "0.0.1"
   },
   "servers": [
@@ -666,57 +666,30 @@
           "field_urn": {
             "$ref": "#/components/schemas/FieldURN"
           },
-          "nutrients": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Nutrient"
-            },
-            "description": "Must be a subset of the registered nutrients"
-          },
           "applications": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Application"
             }
-          },
-          "target_requirements": {
-            "type": "number",
-            "description": "Percentage of the season's requirements to reach (default=100%). This can be used for when doing multiple applications over a season instead of all-at-once"
           }
         },
         "required": [
           "field_urn",
-          "nutrients",
           "applications"
         ],
         "example": {
           "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
-          "nutrients": [
-            "K2O"
-          ],
           "applications": [
             {
-              "application_ref": "slurry",
-              "product": {
-                "name": "Cow slurry",
+              "application_ref": "sow",
+              "seed": {
+                "name": "seed_name",
                 "unit": "l",
                 "composition": {
                   "N": 100,
                   "P2O5": 50,
                   "K2O": 30,
                   "MgO": 3
-                }
-              }
-            },
-            {
-              "application_ref": "potassium",
-              "product": {
-                "name": "K-rich product",
-                "unit": "kg",
-                "composition": {
-                  "N": 7.2,
-                  "P2O5": 35.5,
-                  "K2O": 422
                 }
               }
             }
@@ -731,59 +704,28 @@
           },
           "type": {
             "type": "string",
-            "pattern": "fertilisation"
+            "pattern": "sowing"
           },
           "field_urn": {
             "$ref": "#/components/schemas/FieldURN"
-          },
-          "nutrients": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Nutrient"
-            }
           },
           "applications": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Application"
             }
-          },
-          "target_requirements": {
-            "type": "number",
-            "description": "Percentage of the season's requirements to reach (default=100%). This can be used for when doing multiple applications over a season instead of all-at-once"
           }
         },
         "example": {
           "urn": "urn:com.agricircle.atlas.fertilization_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613",
           "type": "fertilisation",
           "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
-          "nutrients": [
-            "K2O"
-          ],
           "applications": [
             {
-              "application_ref": "slurry",
+              "application_ref": "sow",
               "product": {
-                "name": "Cow slurry",
-                "unit": "l",
-                "composition": {
-                  "N": 100,
-                  "P2O5": 50,
-                  "K2O": 30,
-                  "MgO": 3
-                }
-              }
-            },
-            {
-              "application_ref": "potassium",
-              "product": {
-                "name": "K-rich product",
-                "unit": "kg",
-                "composition": {
-                  "N": 7.2,
-                  "P2O5": 35.5,
-                  "K2O": 422
-                }
+                "name": "corn",
+                "crop": "1.1.1.1"
               }
             }
           ]
@@ -796,8 +738,8 @@
             "type": "string",
             "pattern": "^\\w+$"
           },
-          "product": {
-            "$ref": "#/components/schemas/Product"
+          "seed": {
+            "$ref": "#/components/schemas/Seed"
           },
           "application_map": {
             "readOnly": true,
@@ -823,19 +765,13 @@
         },
         "required": [
           "application_ref",
-          "product"
+          "seed"
         ],
         "example": {
-          "application_ref": "slurry",
-          "product": {
-            "name": "Cow slurry",
-            "unit": "l",
-            "composition": {
-              "N": 100,
-              "P2O5": 50,
-              "K2O": 30,
-              "MgO": 3
-            }
+          "application_ref": "sow",
+          "seed": {
+            "name": "corn",
+            "crop": "1.1.1.1"
           },
           "application_map": {
             "download_url": "https://{SERVICE_BASE_URL}/some_arbitrary_path",
@@ -846,10 +782,13 @@
           }
         }
       },
-      "Product": {
+      "Seed": {
         "type": "object",
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "crop": {
             "type": "string"
           },
           "unit": {
@@ -858,36 +797,8 @@
               "kg",
               "l"
             ]
-          },
-          "composition": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "nutrient": {
-                  "$ref": "#/components/schemas/Nutrient"
-                },
-                "amount": {
-                  "type": "number",
-                  "format": "float",
-                  "description": "Grams of nutrient per product unit"
-                }
-              }
-            }
           }
         }
-      },
-      "Nutrient": {
-        "type": "string",
-        "enum": [
-          "N",
-          "P2O5",
-          "K2O",
-          "CaCO3",
-          "Ca",
-          "MgO",
-          "S"
-        ]
       },
       "SimpleError": {
         "type": "string",
