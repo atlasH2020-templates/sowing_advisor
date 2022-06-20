@@ -12,8 +12,7 @@
 <div class="header">
 ATLAS Service Template Specification
 Name                                               sowing_advisor
-Version                                                     0.0.6
-Status                                                      DRAFT
+Version                                                     0.0.1
 Author(s)                            M. Caballero (AgriCircle AG)
 </div>
 
@@ -59,7 +58,7 @@ This section provides a very high-level summary of the sowing_advisor API:
 <pre>
 Sowing Monitoring Endpoints
     Monitor field
-    Get field monitoring status
+    Get field monitoring info
     Unmonitor field
 Advice Endpoints
     Prepare Advice
@@ -102,7 +101,7 @@ This endpoint registers a field to be monitored for sowing a particular with the
 </pre>
 See Sowing Monitoring for details on the monitoring notification process.
 
-<h2>5.1.2 Get field monitoring status</h2>
+<h2>5.1.2 Get field monitoring info</h2>
 
 This endpoint returns the monitoring info for a field.
 <pre>
@@ -111,10 +110,12 @@ This endpoint returns the monitoring info for a field.
 +-------------+------------------------------+
 |      Inputs | field urn                    |
 +-------------+------------------------------+
-|     Outputs | status, [alerts]             |
+|     Outputs | status, [recommendations]    |
 +-------------+------------------------------+
 </pre>
 The status may be one of IN_PROGRESS, CONFIGURATION_REQUIRED, READY, FAILED. In this context, the IN_PROGRESS status indicates that some background processing is still being carried out and that the service is not yet ready to perform active monitoring. The CONFIGURATION_REQUIRED status indicates that the end-user is required to perform some manual configuration on the service's proprietary UI. FAILED indicates that monitoring is not possible. 0 or more alerts may be present only when the status is READY.
+
+If the status is READY then there may be a recommendation to perform a sowing operation on the field.
 
 <h2>5.1.3 Unmonitor field</h2>
 
