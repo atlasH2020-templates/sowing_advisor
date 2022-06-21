@@ -117,7 +117,7 @@
             "schema": {
               "$ref": "#/components/schemas/FieldURN"
             },
-            "example": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
+            "example": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
           }
         ],
         "responses": {
@@ -212,7 +212,7 @@
             "schema": {
               "$ref": "#/components/schemas/FieldURN"
             },
-            "example": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
+            "example": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
           }
         ],
         "responses": {
@@ -298,6 +298,17 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AdviceRequest"
+              },
+              "example": {
+                "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+                "application": {
+                  "application_ref": "default",
+                  "seed": {
+                    "variety": "champion",
+                    "unit": "count",
+                    "weight_of_1000": 40
+                  }
+                }
               }
             }
           }
@@ -309,6 +320,23 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Advice"
+                },
+                "example": {
+                  "urn": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613",
+                  "type": "sowing",
+                  "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+                  "applications": [
+                    {
+                      "application_ref": "default",
+                      "seed": {
+                        "crop_id": "1.1.1.1",
+                        "variety": "champion",
+                        "unit": "count",
+                        "weight_of_1000": 40
+                      }
+                    }
+                  ],
+                  "status": "READY"
                 }
               }
             }
@@ -396,7 +424,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
           }
         ],
         "responses": {
@@ -406,6 +434,23 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Advice"
+                },
+                "example": {
+                  "urn": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613",
+                  "type": "sowing",
+                  "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
+                  "applications": [
+                    {
+                      "application_ref": "default",
+                      "seed": {
+                        "crop_id": "1.1.1.1",
+                        "variety": "champion",
+                        "unit": "count",
+                        "weight_of_1000": 40
+                      }
+                    }
+                  ],
+                  "status": "READY"
                 }
               }
             }
@@ -476,7 +521,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
           }
         ],
         "responses": {
@@ -551,7 +596,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
           },
           {
             "description": "an application reference configured in prepare_advice",
@@ -561,7 +606,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "slurry"
+            "example": "default"
           }
         ],
         "responses": {
@@ -571,6 +616,20 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Application"
+                },
+                "example": {
+                  "application_ref": "default",
+                  "seed": {
+                    "crop_id": "1.1.1.1",
+                    "variety": "champion",
+                    "unit": "count",
+                    "weight_of_1000": 40
+                  },
+                  "application_map": {
+                    "total_amount": 800000,
+                    "download_url": "https://{SERVICE_BASE_URL}/some_arbitrary_path",
+                    "url_expires_at": "2021-10-31T15:32:00Z"
+                  }
                 }
               }
             }
@@ -651,7 +710,7 @@
           "field_urn"
         ],
         "example": {
-          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
+          "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac"
         }
       },
       "MonitoringInfo": {
@@ -694,43 +753,21 @@
           "field_urn": {
             "$ref": "#/components/schemas/FieldURN"
           },
-          "applications": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Application"
-            }
+          "application": {
+            "$ref": "#/components/schemas/Application"
           }
         },
         "required": [
           "field_urn",
-          "applications"
-        ],
-        "example": {
-          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
-          "applications": [
-            {
-              "application_ref": "sow",
-              "seed": {
-                qwe
-                "name": "seed_name",
-                "unit": "l",
-                "composition": {
-                  "N": 100,
-                  "P2O5": 50,
-                  "K2O": 30,
-                  "MgO": 3
-                }
-              }
-            }
-          ]
-        }
+          "application"
+        ]
       },
       "Advice": {
         "type": "object",
-        "urn": {
-          "$ref": "#/components/schemas/AdviceURN"
-        },
         "properties": {
+          "urn": {
+            "$ref": "#/components/schemas/AdviceURN"
+          },
           "type": {
             "type": "string",
             "pattern": "sowing"
@@ -765,24 +802,7 @@
           "field_urn",
           "applications",
           "status"
-        ],
-        "example": {
-          "urn": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613",
-          "type": "sowing",
-          "field_urn": "urn:field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
-          "applications": [
-            {
-              "application_ref": "sow",
-              "seed": {
-                "crop_id": "1.1.1.1",
-                "variety": "",
-                "unit": "count",
-                "weight_of_1000": 1.2
-              }
-            }
-          ],
-          "status": "READY"
-        }
+        ]
       },
       "Application": {
         "type": "object",
@@ -791,13 +811,42 @@
             "type": "string",
             "pattern": "^\\w+$"
           },
+          "type": {
+            "readOnly": true,
+            "type": "string",
+            "pattern": "sowing"
+          },
+          "seed": {
+            "$ref": "#/components/schemas/Seed"
+          }
+        },
+        "required": [
+          "application_ref",
+          "type",
+          "seed"
+        ]
+      },
+      "ApplicationDetails": {
+        "type": "object",
+        "properties": {
+          "application_ref": {
+            "type": "string",
+            "pattern": "^\\w+$"
+          },
+          "type": {
+            "type": "string",
+            "pattern": "sowing"
+          },
           "seed": {
             "$ref": "#/components/schemas/Seed"
           },
           "application_map": {
-            "readOnly": true,
             "type": "object",
             "properties": {
+              "total_amount": {
+                "type": "number",
+                "format": "float"
+              },
               "download_url": {
                 "type": "string",
                 "format": "uri",
@@ -808,32 +857,19 @@
                 "format": "date-time",
                 "description": "date/time at which download URL expires"
               }
-            }
-          },
-          "amount": {
-            "type": "number",
-            "format": "float",
-            "readOnly": true
+            },
+            "required": [
+              "total_amount",
+              "download_url"
+            ]
           }
         },
         "required": [
           "application_ref",
-          "seed"
-        ],
-        "example": {
-          "application_ref": "sow",
-          "seed": {
-            "name": "corn",
-            "crop": "1.1.1.1"
-          },
-          "application_map": {
-            "download_url": "https://{SERVICE_BASE_URL}/some_arbitrary_path",
-            "url_expires_at": "2021-10-31T15:32:00Z"
-          },
-          "amount": {
-            "total": 75000
-          }
-        }
+          "type",
+          "seed",
+          "application_map"
+        ]
       },
       "Seed": {
         "type": "object",
@@ -842,7 +878,9 @@
             "type": "string"
           },
           "crop_id": {
-            "type": "string"
+            "readOnly": true,
+            "type": "string",
+            "description": "Taken from FAO's LIST OF CROPS, BOTANICAL NAME AND CODE NUMBER (see field_data specifications)"
           },
           "unit": {
             "type": "string",
@@ -856,7 +894,12 @@
             "format": "float",
             "description": "weight of 1000 seeds (in kg)"
           }
-        }
+        },
+        "required": [
+          "crop_id",
+          "unit",
+          "weight_of_1000"
+        ]
       },
       "Recommendation": {
         "type": "object",
