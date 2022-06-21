@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Experimental ATLAS sowing_advisor Service Template API",
-    "version": "0.0.1"
+    "title": "ATLAS sowing_advisor Service Template API",
+    "version": "0.1.0"
   },
   "servers": [
     {
