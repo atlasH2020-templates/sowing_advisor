@@ -322,7 +322,7 @@
                   "$ref": "#/components/schemas/Advice"
                 },
                 "example": {
-                  "urn": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613",
+                  "urn": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613",
                   "type": "sowing",
                   "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
                   "applications": [
@@ -424,7 +424,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
           }
         ],
         "responses": {
@@ -436,7 +436,7 @@
                   "$ref": "#/components/schemas/Advice"
                 },
                 "example": {
-                  "urn": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613",
+                  "urn": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613",
                   "type": "sowing",
                   "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
                   "applications": [
@@ -521,7 +521,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
           }
         ],
         "responses": {
@@ -596,7 +596,7 @@
             "schema": {
               "$ref": "#/components/schemas/AdviceURN"
             },
-            "example": "urn:com.agricircle.atlas.sowing:1e371d44-59ae-4af1-9570-9743dd3ba613"
+            "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
           },
           {
             "description": "an application reference configured in prepare_advice",
