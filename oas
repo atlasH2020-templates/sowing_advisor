@@ -796,7 +796,6 @@
           }
         },
         "required": [
-          "type",
           "seed"
         ]
       },
