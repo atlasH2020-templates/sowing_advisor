@@ -802,10 +802,6 @@
       "ApplicationDetails": {
         "type": "object",
         "properties": {
-          "type": {
-            "type": "string",
-            "pattern": "sowing"
-          },
           "seed": {
             "$ref": "#/components/schemas/Seed"
           },
