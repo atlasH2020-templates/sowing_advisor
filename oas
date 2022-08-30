@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ATLAS sowing_advisor Service Template API",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "servers": [
     {
@@ -301,13 +301,16 @@
               },
               "example": {
                 "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
-                "application": {
-                  "seed": {
-                    "variety": "champion",
-                    "unit": "count",
-                    "weight_of_1000": 40
+                "applications": [
+                  {
+                    "application_ref": "sow",
+                    "seed": {
+                      "variety": "champion",
+                      "unit": "count",
+                      "weight_of_1000": 40
+                    }
                   }
-                }
+                ]
               }
             }
           }
@@ -325,6 +328,7 @@
                   "type": "sowing",
                   "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
                   "application": {
+                    "application_ref": "sow",
                     "seed": {
                       "crop_id": "1.1.1.1",
                       "variety": "champion",
@@ -436,6 +440,7 @@
                   "type": "sowing",
                   "field_urn": "urn:com.agricircle.atlas.field_data:fdbe6f55-6179-4b88-9177-4afbed33adac",
                   "application": {
+                    "application_ref": "sow",
                     "seed": {
                       "crop_id": "1.1.1.1",
                       "variety": "champion",
@@ -569,7 +574,7 @@
         }
       }
     },
-    "/advices/{urn}/applications": {
+    "/advices/{urn}/applications/{application_ref}": {
       "get": {
         "security": [
           {
@@ -590,6 +595,16 @@
               "$ref": "#/components/schemas/AdviceURN"
             },
             "example": "urn:com.agricircle.atlas.sowing_advisor:1e371d44-59ae-4af1-9570-9743dd3ba613"
+          },
+          {
+            "description": "an application reference configured in prepare_advice",
+            "name": "application_ref",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "sow"
           }
         ],
         "responses": {
@@ -598,9 +613,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Application"
+                  "$ref": "#/components/schemas/ApplicationDetails"
                 },
                 "example": {
+                  "application_ref": "sow",
                   "seed": {
                     "crop_id": "1.1.1.1",
                     "variety": "champion",
@@ -735,8 +751,11 @@
           "field_urn": {
             "$ref": "#/components/schemas/FieldURN"
           },
-          "application": {
-            "$ref": "#/components/schemas/Application"
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
           },
           "notification_url": {
             "type": "string",
@@ -746,7 +765,7 @@
         },
         "required": [
           "field_urn",
-          "application"
+          "applications"
         ]
       },
       "Advice": {
@@ -762,8 +781,11 @@
           "field_urn": {
             "$ref": "#/components/schemas/FieldURN"
           },
-          "application": {
-            "$ref": "#/components/schemas/Application"
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
           },
           "status": {
             "type": "string",
@@ -784,24 +806,33 @@
           "urn",
           "type",
           "field_urn",
-          "application",
+          "applications",
           "status"
         ]
       },
       "Application": {
         "type": "object",
         "properties": {
+          "application_ref": {
+            "type": "string",
+            "pattern": "^\\w+$"
+          },
           "seed": {
             "$ref": "#/components/schemas/Seed"
           }
         },
         "required": [
+          "application_ref",
           "seed"
         ]
       },
       "ApplicationDetails": {
         "type": "object",
         "properties": {
+          "application_ref": {
+            "type": "string",
+            "pattern": "^\\w+$"
+          },
           "seed": {
             "$ref": "#/components/schemas/Seed"
           },
@@ -830,7 +861,7 @@
           }
         },
         "required": [
-          "type",
+          "application_ref",
           "seed",
           "application_map"
         ]
