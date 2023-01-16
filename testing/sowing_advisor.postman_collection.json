@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "2a10798e-3222-4cde-bc11-36fd08c6368d",
+		"name": "ATLAS sowing_advisor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "prepare_advice",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"if (res.urn) {",
+							"    pm.environment.set(\"advice_urn\", res.urn);",
+							"    pm.environment.set(\"advice_application_ref\", res.applications[0].application_ref);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"field_urn\": \"{{field_urn}}\",\n    \"applications\": [{\n        \"application_ref\": \"drilling\",\n        \"seed\": {\n            \"variety\": \"champion\",\n            \"unit\": \"count\",\n            \"weight_of_1000\": 41\n        }\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sowing_advisor_url}}/advices",
+					"host": [
+						"{{sowing_advisor_url}}"
+					],
+					"path": [
+						"advices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_advice",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var res = JSON.parse(responseBody);",
+							"if (res.applications?.length)",
+							"    pm.environment.set(\"advice_application_ref\", res.applications[0].application_ref);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{sowing_advisor_url}}/advices/{{advice_urn}}",
+					"host": [
+						"{{sowing_advisor_url}}"
+					],
+					"path": [
+						"advices",
+						"{{advice_urn}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_advice",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{sowing_advisor_url}}/advices/{{advice_urn}}",
+					"host": [
+						"{{sowing_advisor_url}}"
+					],
+					"path": [
+						"advices",
+						"{{advice_urn}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get application ref",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{sowing_advisor_url}}/advices/{{advice_urn}}/applications/{{advice_application_ref}}",
+					"host": [
+						"{{sowing_advisor_url}}"
+					],
+					"path": [
+						"advices",
+						"{{advice_urn}}",
+						"applications",
+						"{{advice_application_ref}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get application ref gpkg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{download_url}}",
+					"host": [
+						"{{download_url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{sowing_advisor_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "download_url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
